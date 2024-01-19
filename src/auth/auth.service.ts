@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 
 import { JwtPayload } from './dto/jwt-payload.dto';
 import { UserService } from 'src/users/users.service';
+import { User } from 'src/users/users.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,10 @@ export class AuthService {
     return { access_token };
   }
 
+  async validateUserById(userId: number): Promise<User> {
+    return this.userService.findOneById(userId);
+  }
+
   async login(
     email: string,
     password: string,
@@ -26,6 +31,6 @@ export class AuthService {
       throw new HttpException('Credenciais inválidas', HttpStatus.UNAUTHORIZED);
     }
 
-    return this.generateToken({ email });
+    return this.generateToken({ email, id: user.id });
   }
 }
