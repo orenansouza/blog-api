@@ -9,7 +9,7 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() credentials: { email: string; password: string },
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ id: number; access_token: string }> {
     return this.authService.login(credentials.email, credentials.password);
   }
 }
